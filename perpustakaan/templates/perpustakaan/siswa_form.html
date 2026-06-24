@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}{% if mode == 'edit' %}Edit{% else %}Tambah{% endif %} User{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <a href="{% url 'siswa_list' %}" class="back">← Kelola User</a>
+    <h1>{% if mode == 'edit' %}Edit User{% else %}Tambah User{% endif %}</h1>
+  </div>
+</div>
+<form method="post" class="form-card">{% csrf_token %}
+  <div class="grid-2">
+    <div class="field">
+      <label>Nama</label>
+      <input name="nama" value="{{ data.nama|default:'' }}" required>
+      {% if errors.nama %}<div class="err">{{ errors.nama }}</div>{% endif %}
+    </div>
+    <div class="field">
+      <label>Kelas</label>
+      <input name="kelas" value="{{ data.kelas|default:'' }}" required>
+      {% if errors.kelas %}<div class="err">{{ errors.kelas }}</div>{% endif %}
+    </div>
+    <div class="field">
+      <label>NIS</label>
+      <input name="nis" value="{{ data.nis|default:'' }}" required>
+      {% if errors.nis %}<div class="err">{{ errors.nis }}</div>{% endif %}
+    </div>
+    <div class="field">
+      <label>Status</label>
+      <select name="status">
+        <option value="Aktif" {% if data.is_active %}selected{% endif %}>Aktif</option>
+        <option value="Tidak Aktif" {% if not data.is_active %}selected{% endif %}>Tidak Aktif</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-actions">
+    <a href="{% url 'siswa_list' %}" class="btn btn-ghost">Batal</a>
+    <button class="btn btn-primary">{% if mode == 'edit' %}Perbarui User{% else %}Simpan User{% endif %}</button>
+  </div>
+</form>
+{% endblock %}

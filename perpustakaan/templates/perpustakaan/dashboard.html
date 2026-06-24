@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="stats">
+  <div class="stat">
+    <div class="top">Total Buku
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    </div>
+    <div class="value">{{ total_buku }}</div>
+    <div class="desc">Keseluruhan unit buku tersedia.</div>
+  </div>
+  <div class="stat">
+    <div class="top">Total Judul
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z"/></svg>
+    </div>
+    <div class="value">{{ total_judul }}</div>
+    <div class="desc">Jumlah koleksi judul buku.</div>
+  </div>
+  <div class="stat">
+    <div class="top">Sedang Dipinjam
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="11" r=".8" fill="currentColor"/><circle cx="15" cy="11" r=".8" fill="currentColor"/><path d="M8 15h8"/></svg>
+    </div>
+    <div class="value">{{ sedang }}</div>
+    <div class="desc">Transaksi peminjaman aktif.</div>
+  </div>
+  <div class="stat">
+    <div class="top">Sudah Dikembalikan
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg>
+    </div>
+    <div class="value">{{ kembali }}</div>
+    <div class="desc">Transaksi yang sudah selesai.</div>
+  </div>
+</div>
+
+<div class="row-2">
+  <div class="card">
+    <div class="sub">Analisis Stok</div>
+    <h3>Distribusi Stok Buku</h3>
+    <div style="margin-top:18px">
+      {% for b in stok_buku %}
+        <div class="bar-row"><span>{{ b.judul }}</span><b>{{ b.stok }}</b></div>
+        <div class="bar blue"><span style="width:{{ b.pct }}%"></span></div>
+      {% empty %}
+        <div class="sub">Belum ada data buku.</div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="card">
+    <div class="sub">Status Peminjaman</div>
+    <h3>Ringkasan Transaksi</h3>
+    <div style="margin-top:18px">
+      {% for t in transaksi %}
+        <div class="bar-row"><span>{{ t.label }}</span><b>{{ t.value }}</b></div>
+        <div class="bar {{ t.color }}"><span style="width:{{ t.pct }}%"></span></div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

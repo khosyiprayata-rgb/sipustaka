@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Detail User{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <a href="{% url 'siswa_list' %}" class="back">← Kelola User</a>
+    <h1>Detail User</h1>
+  </div>
+  <div class="actions">
+    <a href="{% url 'siswa_edit' s.id %}" class="btn btn-primary btn-sm">Edit</a>
+    <a href="{% url 'siswa_delete' s.id %}" class="btn btn-danger btn-sm">Hapus</a>
+  </div>
+</div>
+<div class="form-card">
+  <div class="detail-grid">
+    <div class="detail-item"><div class="lbl">ID</div><div class="val">{{ s.id }}</div></div>
+    <div class="detail-item"><div class="lbl">Nama</div><div class="val">{{ s.nama }}</div></div>
+    <div class="detail-item"><div class="lbl">Kelas</div><div class="val">{{ s.kelas }}</div></div>
+    <div class="detail-item"><div class="lbl">NIS</div><div class="val">{{ s.nis }}</div></div>
+    <div class="detail-item"><div class="lbl">Status</div><div class="val">{% if s.is_active %}<span class="badge badge-aktif">Aktif</span>{% else %}<span class="badge badge-nonaktif">Tidak Aktif</span>{% endif %}</div></div>
+    <div class="detail-item"><div class="lbl">Total Peminjaman</div><div class="val">{{ total }}</div></div>
+    <div class="detail-item full"><div class="lbl">Peminjaman Aktif</div><div class="val" style="font-weight:500">{{ aktif }} buku masih dipinjam.</div></div>
+  </div>
+</div>
+{% endblock %}

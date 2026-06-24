@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}{% if mode == 'edit' %}Edit{% else %}Tambah{% endif %} Buku{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <a href="{% url 'buku_list' %}" class="back">← Kelola Buku</a>
+    <h1>{% if mode == 'edit' %}Edit Buku{% else %}Tambah Buku{% endif %}</h1>
+  </div>
+</div>
+
+<form method="post" class="form-card">{% csrf_token %}
+  <div class="grid-2">
+    <div class="field">
+      <label>Judul Buku</label>
+      <input name="judul" value="{{ data.judul|default:'' }}" required>
+      {% if errors.judul %}<div class="err">{{ errors.judul }}</div>{% endif %}
+    </div>
+    <div class="field">
+      <label>Pengarang</label>
+      <input name="pengarang" value="{{ data.pengarang|default:'' }}" required>
+      {% if errors.pengarang %}<div class="err">{{ errors.pengarang }}</div>{% endif %}
+    </div>
+    <div class="field">
+      <label>Kategori</label>
+      <select name="kategori" required>
+        <option value="">-- pilih --</option>
+        {% for k in kategori_choices %}
+          <option value="{{ k }}" {% if data.kategori == k %}selected{% endif %}>{{ k }}</option>
+        {% endfor %}
+      </select>
+      {% if errors.kategori %}<div class="err">{{ errors.kategori }}</div>{% endif %}
+    </div>
+    <div class="field">
+      <label>Penerbit</label>
+      <input name="penerbit" value="{{ data.penerbit|default:'' }}" required>
+      {% if errors.penerbit %}<div class="err">{{ errors.penerbit }}</div>{% endif %}
+    </div>
+    <div class="field">
+      <label>Tahun Terbit</label>
+      <input type="number" name="tahun_terbit" value="{{ data.tahun_terbit|default:'' }}" required>
+      {% if errors.tahun_terbit %}<div class="err">{{ errors.tahun_terbit }}</div>{% endif %}
+    </div>
+    <div class="field">
+      <label>Stok</label>
+      <input type="number" min="0" name="stok" value="{{ data.stok|default:'' }}" required>
+      {% if errors.stok %}<div class="err">{{ errors.stok }}</div>{% endif %}
+    </div>
+    <div class="field">
+      <label>ISBN</label>
+      <input name="isbn" value="{{ data.isbn|default:'' }}">
+    </div>
+    <div class="field">
+      <label>Rak / Lokasi</label>
+      <select name="rak" required>
+        <option value="">-- pilih --</option>
+        {% for r in rak_choices %}
+          <option value="{{ r }}" {% if data.rak == r %}selected{% endif %}>{{ r }}</option>
+        {% endfor %}
+      </select>
+      {% if errors.rak %}<div class="err">{{ errors.rak }}</div>{% endif %}
+    </div>
+    <div class="field full">
+      <label>Deskripsi</label>
+      <textarea name="deskripsi">{{ data.deskripsi|default:'' }}</textarea>
+    </div>
+  </div>
+  <div class="form-actions">
+    <a href="{% url 'buku_list' %}" class="btn btn-ghost">Batal</a>
+    <button class="btn btn-primary">{% if mode == 'edit' %}Perbarui Buku{% else %}Simpan Buku{% endif %}</button>
+  </div>
+</form>
+{% endblock %}

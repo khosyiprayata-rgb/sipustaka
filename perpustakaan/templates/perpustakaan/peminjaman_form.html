@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Pinjam Buku{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <a href="{% url 'peminjaman_list' %}" class="back">← Peminjaman Buku</a>
+    <h1>Pinjam Buku</h1>
+  </div>
+</div>
+<form method="post" class="form-card">{% csrf_token %}
+  <div class="grid-2">
+    <div class="field">
+      <label>Nama Peminjam</label>
+      <select name="siswa_id" required>
+        <option value="">-- pilih siswa --</option>
+        {% for s in siswa_opts %}
+          <option value="{{ s.id }}" {% if data.siswa_id|stringformat:'s' == s.id|stringformat:'s' %}selected{% endif %}>{{ s.nama }} - {{ s.kelas }} ({{ s.nis }})</option>
+        {% endfor %}
+      </select>
+      {% if errors.siswa_id %}<div class="err">{{ errors.siswa_id }}</div>{% endif %}
+    </div>
+    <div class="field">
+      <label>Pilih Buku</label>
+      <select name="buku_id" required>
+        <option value="">-- pilih buku --</option>
+        {% for b in buku_opts %}
+          <option value="{{ b.id }}" {% if data.buku_id|stringformat:'s' == b.id|stringformat:'s' %}selected{% endif %}>{{ b.judul }} ({{ b.stok }} stok)</option>
+        {% endfor %}
+      </select>
+      {% if errors.buku_id %}<div class="err">{{ errors.buku_id }}</div>{% endif %}
+    </div>
+    <div class="field">
+      <label>Tanggal Pinjam</label>
+      <input type="date" name="tanggal_pinjam" value="{{ data.tanggal_pinjam }}" required>
+    </div>
+    <div class="field">
+      <label>Tanggal Jatuh Tempo</label>
+      <input type="date" name="jatuh_tempo" value="{{ data.jatuh_tempo }}" required>
+    </div>
+    <div class="field">
+      <label>Keperluan</label>
+      <select name="keperluan">
+        {% for k in keperluan_choices %}
+          <option value="{{ k }}" {% if data.keperluan == k %}selected{% endif %}>{{ k }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field">
+      <label>Petugas</label>
+      <input name="petugas" value="{{ data.petugas }}">
+    </div>
+    <div class="field full">
+      <label>Catatan</label>
+      <textarea name="catatan" placeholder="Contoh: buku untuk tugas Bahasa Indonesia">{{ data.catatan|default:'' }}</textarea>
+    </div>
+    <input type="hidden" name="status" value="Dipinjam">
+  </div>
+  <div class="form-actions">
+    <a href="{% url 'peminjaman_list' %}" class="btn btn-ghost">Batal</a>
+    <button class="btn btn-primary">Pinjam Buku</button>
+  </div>
+</form>
+{% endblock %}

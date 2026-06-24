@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Peminjaman{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <div class="crumb">Catat peminjaman dan pengembalian buku.</div>
+    <h1>Peminjaman</h1>
+  </div>
+  <a href="{% url 'peminjaman_create' %}" class="btn btn-primary">+ Pinjam Buku</a>
+</div>
+<div class="table-card">
+<table>
+  <thead><tr>
+    <th>ID</th><th>Nama Peminjam</th><th>Buku</th><th>Tanggal Pinjam</th><th>Jatuh Tempo</th>
+    <th>Keperluan</th><th>Petugas</th><th>Status</th><th>Aksi</th>
+  </tr></thead>
+  <tbody>
+  {% for p in rows %}
+    <tr>
+      <td>{{ p.id }}</td>
+      <td>{{ p.nama_siswa }}</td>
+      <td>{{ p.judul_buku }}</td>
+      <td>{{ p.tanggal_pinjam|date:"d M Y" }}</td>
+      <td>{{ p.jatuh_tempo|date:"d M Y" }}</td>
+      <td>{{ p.keperluan }}{% if p.catatan %}<div style="color:var(--muted);font-size:12px">{{ p.catatan }}</div>{% endif %}</td>
+      <td>{{ p.petugas }}</td>
+      <td>
+        {% if p.status == 'Dipinjam' %}<span class="badge badge-pinjam">Dipinjam</span>
+        {% elif p.status == 'Dikembalikan' %}<span class="badge badge-kembali">Dikembalikan</span>
+        {% else %}<span class="badge badge-terlambat">{{ p.status }}</span>{% endif %}
+      </td>
+      <td>
+        {% if p.status != 'Dikembalikan' %}
+          <form method="post" action="{% url 'peminjaman_return' p.id %}" style="display:inline">{% csrf_token %}
+            <button class="btn btn-success btn-sm">Kembalikan</button>
+          </form>
+        {% else %}<span style="color:var(--muted);font-size:12px">Selesai</span>{% endif %}
+      </td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="9" style="text-align:center;color:#94a3b8;padding:30px">Belum ada transaksi.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

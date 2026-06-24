@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Hapus Buku{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <a href="{% url 'buku_list' %}" class="back">← Kelola Buku</a>
+    <h1>Hapus Buku</h1>
+  </div>
+</div>
+<form method="post" class="form-card" style="max-width:560px">{% csrf_token %}
+  <div>Anda akan menghapus:</div>
+  <div style="font-size:18px;font-weight:700;margin:6px 0">{{ b.judul }}</div>
+  <div class="sub" style="color:var(--muted);font-size:13px">Data peminjaman yang menggunakan buku ini tidak akan otomatis dihapus.</div>
+  <div class="form-actions">
+    <a href="{% url 'buku_list' %}" class="btn btn-ghost">Batal</a>
+    <button class="btn btn-danger">Hapus</button>
+  </div>
+</form>
+{% endblock %}

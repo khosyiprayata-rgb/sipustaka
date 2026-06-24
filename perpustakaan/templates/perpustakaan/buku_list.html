@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Buku{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <div class="crumb">Kelola data buku SIPUSTAKA.</div>
+    <h1>Daftar Buku</h1>
+  </div>
+  <a href="{% url 'buku_create' %}" class="btn btn-primary">+ Tambah Buku</a>
+</div>
+
+<div class="table-card">
+<table>
+  <thead><tr>
+    <th>ID</th><th>Judul</th><th>Pengarang</th><th>Kategori</th><th>Penerbit</th>
+    <th>Tahun</th><th>Rak</th><th>Stok</th><th>Aksi</th>
+  </tr></thead>
+  <tbody>
+  {% for b in rows %}
+    <tr>
+      <td>{{ b.id }}</td>
+      <td>{{ b.judul }}</td>
+      <td>{{ b.pengarang }}</td>
+      <td>{{ b.kategori }}</td>
+      <td>{{ b.penerbit }}</td>
+      <td>{{ b.tahun_terbit }}</td>
+      <td>{{ b.rak }}</td>
+      <td>{{ b.stok }}</td>
+      <td class="actions">
+        <a href="{% url 'buku_detail' b.id %}" class="btn btn-ghost btn-sm">Detail</a>
+        <a href="{% url 'buku_edit' b.id %}" class="btn btn-primary btn-sm">Edit</a>
+        <a href="{% url 'buku_delete' b.id %}" class="btn btn-danger btn-sm">Hapus</a>
+      </td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="9" style="text-align:center;color:#94a3b8;padding:30px">Belum ada data buku.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

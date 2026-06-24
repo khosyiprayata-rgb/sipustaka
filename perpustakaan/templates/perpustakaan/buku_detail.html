@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Detail Buku{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <a href="{% url 'buku_list' %}" class="back">← Kelola Buku</a>
+    <h1>Detail Buku</h1>
+  </div>
+  <div class="actions">
+    <a href="{% url 'buku_edit' b.id %}" class="btn btn-primary btn-sm">Edit</a>
+    <a href="{% url 'buku_delete' b.id %}" class="btn btn-danger btn-sm">Hapus</a>
+  </div>
+</div>
+
+<div class="form-card">
+  <div class="detail-grid">
+    <div class="detail-item"><div class="lbl">Judul</div><div class="val">{{ b.judul }}</div></div>
+    <div class="detail-item"><div class="lbl">Pengarang</div><div class="val">{{ b.pengarang }}</div></div>
+    <div class="detail-item"><div class="lbl">Kategori</div><div class="val">{{ b.kategori }}</div></div>
+    <div class="detail-item"><div class="lbl">Penerbit</div><div class="val">{{ b.penerbit }}</div></div>
+    <div class="detail-item"><div class="lbl">Tahun Terbit</div><div class="val">{{ b.tahun_terbit }}</div></div>
+    <div class="detail-item"><div class="lbl">ISBN</div><div class="val">{{ b.isbn|default:"-" }}</div></div>
+    <div class="detail-item"><div class="lbl">Rak / Lokasi</div><div class="val">{{ b.rak }}</div></div>
+    <div class="detail-item"><div class="lbl">Stok</div><div class="val">{{ b.stok }}</div></div>
+    <div class="detail-item full"><div class="lbl">Deskripsi</div><div class="val" style="font-weight:500">{{ b.deskripsi|default:"-" }}</div></div>
+  </div>
+</div>
+{% endblock %}
